@@ -9,6 +9,7 @@ export default function Hero() {
         src="/warehouse.jpg"
         alt="Industrial background"
         fill
+        sizes="100vw"
         className="object-cover brightness-50"
         priority
       />

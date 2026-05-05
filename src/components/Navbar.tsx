@@ -61,6 +61,9 @@ export default function Navbar() {
           <Link href="/about" className="hover:text-red-400 transition" onClick={handleNavClick}>
             About
           </Link>
+          <Link href="/blog" className="hover:text-red-400 transition" onClick={handleNavClick}>
+            Blog
+          </Link>
           <Link href="/products" onClick={handleNavClick} className="block hover:text-red-400 transition">
             Products
           </Link>
@@ -87,6 +90,9 @@ export default function Navbar() {
           </Link>
           <Link href="/about" onClick={handleNavClick} className="block hover:text-red-400 transition">
             About
+          </Link>
+          <Link href="/blog" onClick={handleNavClick} className="block hover:text-red-400 transition">
+            Blog
           </Link>
           <Link href="/contact" onClick={handleNavClick} className="block hover:text-red-400 transition">
             Contact

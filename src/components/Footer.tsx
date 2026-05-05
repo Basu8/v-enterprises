@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Youtube } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -29,6 +29,7 @@ export default function Footer() {
           <div className="space-y-2 text-sm">
             <Link href="/" className="hover:text-red-400 transition">Home</Link><br />
             <Link href="/about" className="hover:text-red-400 transition">About</Link><br />
+            <Link href="/blog" className="hover:text-red-400 transition">Blog</Link><br />
             <Link href="/products" className="hover:text-red-400 transition">Products</Link><br />
             <Link href="/contact" className="hover:text-red-400 transition">Contact</Link>
           </div>
