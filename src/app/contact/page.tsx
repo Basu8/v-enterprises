@@ -60,9 +60,11 @@ export default function ContactPage() {
       });
       setSelectedCategory("");
 
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setError("Failed to submit inquiry. Please try again or contact us directly.");
+    } catch (err: unknown) {
+      const error = err as { code?: string; message?: string };
+      console.error("Firestore error code:", error?.code);
+      console.error("Firestore error message:", error?.message);
+      setError(`Failed to submit: ${error?.code ?? error?.message ?? "Unknown error"}. Please try again or contact us directly.`);
     } finally {
       setLoading(false);
     }

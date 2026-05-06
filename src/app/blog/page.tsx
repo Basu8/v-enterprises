@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/client";
 import { type SanityDocument } from "next-sanity";
-import Footer from "../../components/Footer";
 
 export const metadata = {
   title: "Blog | V Enterprises",
@@ -102,8 +101,6 @@ export default async function BlogPage() {
           )}
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
