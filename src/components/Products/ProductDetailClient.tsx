@@ -78,18 +78,6 @@ export default function ProductDetailClient({ product }: Props) {
             <span className="font-semibold text-gray-900">{product.minOrderQty}</span>
           </p>
 
-          {/* Key Features */}
-          {/* <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="font-semibold text-gray-900 mb-2">Key Features</h3>
-            <ul className="space-y-1">
-              {product.bullets.slice(0, 3).map((bullet) => (
-                <li key={bullet} className="flex items-center gap-2 text-sm text-gray-700">
-                  <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span>
-                  {bullet}
-                </li>
-              ))}
-            </ul>
-          </div> */}
         </div>
 
         {/* Specifications */}

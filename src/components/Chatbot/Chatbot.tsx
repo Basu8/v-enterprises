@@ -163,12 +163,15 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
         showCategoryOptions();
         break;
 
-      case 'category':
-        const selectedCat = productCategories.find(cat => 
-          cat.toLowerCase().includes(userInput.toLowerCase()) || 
-          userInput.toLowerCase().includes(cat.toLowerCase())
-        );
-        
+      case 'category': {
+        const catIndex = parseInt(userInput) - 1;
+        const selectedCat = !isNaN(catIndex) && catIndex >= 0 && catIndex < productCategories.length
+          ? productCategories[catIndex]
+          : productCategories.find(cat =>
+              cat.toLowerCase().includes(userInput.toLowerCase()) ||
+              userInput.toLowerCase().includes(cat.toLowerCase())
+            );
+
         if (selectedCat) {
           setSelectedCategory(selectedCat);
           setCurrentStep('product');
@@ -177,16 +180,20 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
           addMessage("Please select a valid category from the options above.", 'bot');
         }
         break;
+      }
 
-      case 'product':
-        const filteredProducts = selectedCategory 
+      case 'product': {
+        const filteredProducts = selectedCategory
           ? allProducts.filter(product => product.category === selectedCategory)
           : allProducts;
-        
-        const selectedProduct = filteredProducts.find(prod => 
-          prod.name.toLowerCase().includes(userInput.toLowerCase()) || 
-          userInput.toLowerCase().includes(prod.name.toLowerCase())
-        );
+
+        const prodIndex = parseInt(userInput) - 1;
+        const selectedProduct = !isNaN(prodIndex) && prodIndex >= 0 && prodIndex < filteredProducts.length
+          ? filteredProducts[prodIndex]
+          : filteredProducts.find(prod =>
+              prod.name.toLowerCase().includes(userInput.toLowerCase()) ||
+              userInput.toLowerCase().includes(prod.name.toLowerCase())
+            );
 
         if (selectedProduct) {
           setFormData(prev => ({ ...prev, product: selectedProduct.name }));
@@ -196,6 +203,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
           addMessage("Please select a valid product from the options above.", 'bot');
         }
         break;
+      }
 
       case 'quantity':
         // Basic quantity validation - should be a number greater than 0
@@ -211,7 +219,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
 
       case 'message':
         setFormData(prev => ({ ...prev, message: userInput }));
-        await submitOrderToFirebase();
+        await submitOrderToFirebase(userInput);
         break;
 
       default:
@@ -240,7 +248,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     addMessage(productMessage, 'bot');
   };
 
-  const submitOrderToFirebase = async () => {
+  const submitOrderToFirebase = async (message?: string) => {
     setLoading(true);
     
     try {
@@ -267,8 +275,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
       // Save to Firestore - same collection as contact form
       await addDoc(collection(db, "bulkOrders"), {
         ...formData,
+        message: message ?? formData.message,
         status: "new",
-        source: "chatbot", // Differentiate from contact form submissions
+        source: "chatbot",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       });
@@ -314,17 +323,18 @@ const Chatbot: React.FC<ChatbotProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  // Fix the handleQuickReply function to prevent rapid duplicate calls
   const handleQuickReply = (reply: string) => {
-    if (loading) return; // Prevent during loading
-    
-    setInputMessage(reply);
-    // Use requestAnimationFrame for better timing
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        handleUserInput();
-      }, 100);
-    });
+    if (loading) return;
+    addMessage(reply, 'user');
+    if (reply === 'Contact Info') {
+      addMessage('📞 Phone: +91 83083 06420\n📧 Email: v.enterprises994@gmail.com\n\nFeel free to reach out directly or use our contact form at /contact', 'bot');
+    } else if (reply === 'View Categories') {
+      showCategoryOptions();
+    } else if (reply === 'Start Order') {
+      handleStartOrder();
+    } else {
+      processUserInput(reply);
+    }
   };
 
   // Render messages with proper keys

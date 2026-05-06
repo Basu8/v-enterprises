@@ -140,7 +140,7 @@ export default async function PostPage({
           {/* Image */}
           <div className="mb-10 overflow-hidden rounded-xl">
             <Image
-              src={postImageUrl!}
+              src={postImageUrl ?? "/blog.jpg"}
               alt={post.title}
               width={1200}
               height={630}

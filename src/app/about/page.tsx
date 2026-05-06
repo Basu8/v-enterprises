@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function AboutPage() {
@@ -28,14 +29,19 @@ export default function AboutPage() {
 
         {/* Company Overview */}
         <section className="py-20 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <motion.img
-            src="/kamgar.jpg"
-            alt="About V Enterprises"
-            className="w-full rounded-2xl shadow-lg object-cover"
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-          />
+          >
+            <Image
+              src="/kamgar.jpg"
+              alt="About V Enterprises"
+              width={600}
+              height={400}
+              className="w-full rounded-2xl shadow-lg object-cover"
+            />
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -94,7 +100,7 @@ export default function AboutPage() {
   <section className="py-20 bg-linear-to-r from-blue-800 to-blue-600 text-center text-white">
           <h2 className="text-3xl font-semibold mb-4">Let’s Build the Future Together</h2>
           <p className="mb-8 max-w-2xl mx-auto text-gray-200">
-            Partner with VIV to transform your industrial operations into efficient, tech-driven systems.
+            Partner with V Enterprises to transform your industrial operations into efficient, tech-driven systems.
           </p>
           <a
             href="/contact"
